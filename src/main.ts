@@ -2,7 +2,7 @@ import './style/dist/style.css';
 import './utils/stringExtensions';
 
 import { PageBase } from "@decorators";
-import { Device, Language, Navigation, State } from "@services";
+import { Navigation, State } from "@services";
 import { StateKeys } from "@services/state/config";
 import { Loader, Modal, Navbar } from "@app/shared";
 
@@ -10,10 +10,8 @@ class Main {
   // App element.
   app = document.getElementById('app') ?? this.createApp();
   // Services.
-  device = new Device();
   navigator = new Navigation();
   appState = new State();
-  i18n = new Language();
 
   // Elements.
   loader = new Loader();
@@ -33,9 +31,7 @@ class Main {
   }
 
   private setData(): void {
-    this.appState.setData(StateKeys.lang, this.i18n);
     this.appState.setData(StateKeys.nav, this.navigator);
-    this.appState.setData(StateKeys.device, this.device);
   }
 
   private init() {

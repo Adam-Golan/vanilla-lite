@@ -8,7 +8,7 @@ import './navbar.scss';
 
 @ModuleDecorator
 export class Navbar extends LinkBased {
-    screenWidth = this.appState.getData(StateKeys.device).width;
+    screenWidth = document.body.clientWidth;
 
     protected init() {
         if (this.screenWidth <= 480) this.createHamburger();

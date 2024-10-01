@@ -1,4 +1,4 @@
-import { Home, Contact, Dialogs, Forms, GetStarted, Documentation } from "@app/pages";
+import { Home } from "@app/pages";
 import { PageBase } from "@decorators";
 import { State } from "@services/state/state";
 
@@ -6,11 +6,6 @@ export class Navigation {
     pages: { [k: string]: typeof PageBase<any> } = {
         '/': Home,
         '/home': Home,
-        '/get-started': GetStarted,
-        '/forms': Forms,
-        '/dialogs': Dialogs,
-        '/docs': Documentation,
-        '/contact-us': Contact,
     };
     get origin() {
         return location.origin;
