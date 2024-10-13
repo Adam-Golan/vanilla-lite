@@ -1,6 +1,6 @@
 import { LinkBased } from "../link-based";
 import { ModuleDecorator } from "@decorators";
-import { StateKeys } from "@services/state/config";
+import { StateKeys } from "@constants/stateKeys.constant";
 import { Link } from "@app/shared";
 import { MenuExtender } from "@app/shared";
 

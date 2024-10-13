@@ -1,7 +1,7 @@
 import { Enlist } from "@decorators/utils/listing";
 import { Base } from "@decorators/base";
 import { State } from "@services";
-import { StateKeys } from "@services/state/config";
+import { StateKeys } from "@constants/stateKeys.constant";
 import { LayoutType } from "@decorators/types/types";
 import { Footer } from "@app/shared";
 

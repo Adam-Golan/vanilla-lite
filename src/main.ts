@@ -3,15 +3,23 @@ import './utils/stringExtensions';
 
 import { PageBase } from "@decorators";
 import { Navigation, State } from "@services";
-import { StateKeys } from "@services/state/config";
 import { Loader, Modal, Navbar } from "@app/shared";
+import { StateKeys } from '@constants/stateKeys.constant';
+import { Home } from '@app/pages';
+
+interface IApplicationState {
+  [StateKeys.nav]: Navigation;
+}
 
 class Main {
   // App element.
   app = document.getElementById('app') ?? this.createApp();
   // Services.
-  navigator = new Navigation();
-  appState = new State();
+  navigator = new Navigation({
+    '/': Home,
+    '/home': Home,
+  });
+  appState = new State<IApplicationState>();
 
   // Elements.
   loader = new Loader();

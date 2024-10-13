@@ -1,7 +1,7 @@
 import { ComponentBase, ComponentDecorator } from "@decorators";
 import { IHeroText } from "./lang";
 import { State } from "@services";
-import { StateKeys } from "@services/state/config";
+import { StateKeys } from "@constants/stateKeys.constant";
 import { Link } from "@app/shared";
 
 import './hero.scss';
