@@ -1,19 +1,17 @@
-import { PageBase, PageDecorator } from "@decorators";
+import { Page, PageDecorator } from "@decorators";
 import { Hero } from "@app/shared";
 
 import './home.scss';
 
 @PageDecorator
-export class Home extends PageBase {
-    hero: Hero;
+export class Home extends Page {
     protected async init() {
-        this.hero = new Hero(this.pageState);
-        this.hero.texts = {
+        const hero = new Hero(this.pageState, {
             header: 'welcome to home page!',
             subHeader: 'this is the sub header...',
             img: 'hero.jpeg'
-        }
-        this.append(this.hero);
+        });
+        this.append(hero);
         super.init();
         this.showPage();
     }

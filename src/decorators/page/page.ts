@@ -1,5 +1,6 @@
 import { Enlist } from "@decorators/utils/listing";
-import { Base } from "@decorators/base";
+import { TextBase } from "@decorators/base";
+import { addMeta } from "@decorators/utils/adders";
 import { State } from "@services";
 import { StateKeys } from "@constants/stateKeys.constant";
 import { LayoutType } from "@decorators/types/types";
@@ -9,32 +10,25 @@ export function PageDecorator(target: CustomElementConstructor) {
     Enlist('page', target);
 }
 
-export abstract class PageBase<IText = any> extends Base<IText> {
+export abstract class Page extends TextBase {
     // Creating a page's state.
     pageState = new State();
     // Creating a footer.
     footer: Footer;
-    // Creating component list to build easily.
-    subPageList: string[];
     // Declatring layout type.
     layout: LayoutType = 'single_column';
 
     constructor(protected appState: State) {
         super();
-        // Create id for the page by constructor name.
-        this.id = this.constructor.name.toLowerCase();
-        // Setting data-type as page.
-        this.dataset.type = 'page';
+        addMeta(this, 'page');
         // Setting data-layout.
         this.dataset.layout = this.layout;
     }
 
     // Useful with super.init().
-    protected async init(): Promise<void> {
+    protected init(): void {
         // Creating footer.
         this.createFooter();
-        // Subscribe page navigation.
-        this.pageState.subscribe(StateKeys.stateNavigate, (href: string) => this.appState.publish(StateKeys.stateNavigate, href));
         // Erase if upsetting.
         if (import.meta.env.DEV) console.log('Don\'t forget to use showPage function, or you\'ll be stuck with the loader element.');
     }
