@@ -1,15 +1,14 @@
 import { Loader } from "@app/shared";
-import { StateKeys } from "@constants/stateKeys.constant";
 import { Page } from "@decorators";
 import { State } from "@services/state/state";
 
 export interface IPages {
-    [k: string]: typeof Page<any> | IPages;
+    [k: string]: typeof Page | IPages;
 }
 
 export class Navigation {
     loader = new Loader();
-    loadingPage: Page<any>;
+    loadingPage: Page;
 
     constructor(private state: State, private ref: HTMLElement, public pages: IPages, private basePath = '') {
         window.addEventListener("popstate", _ => {
@@ -36,14 +35,13 @@ export class Navigation {
     private prepareNav(path: string): void {
         window.history.pushState(null, '', `${location.origin}${this.basePath}${path}`);
         const Page = this.getPage(path);
-        const texts = this.state.getData(StateKeys.lang).getPageTexts(Page.name.toLowerCase());
-        this.loadingPage = new Page(texts, this.state);
+        this.loadingPage = new Page(this.state);
     }
 
-    private getPage<T extends Page>(path: string): new (texts: Record<string, string>, appState: State) => T {
+    private getPage<T extends Page>(path: string): new (appState: State) => T {
         const Page = this.pages[path] ?? this.pages['/'] ?? this.pages['/home'] ?? this.pages['/landing'];
         document.title = `Vanilla | ${(Page.name as string).addSpaces('uppercase')}`;
-        return Page as new (texts: Record<string, string>, appState: State) => T;
+        return Page as new (appState: State) => T;
     }
 
     static breadCrumbs(): string[] {
