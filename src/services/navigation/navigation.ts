@@ -24,6 +24,7 @@ export class Navigation {
     }
 
     loading(path: string): void {
+        if (location.pathname.includes(path)) return;
         this.ref.replaceChild(this.loader, this.loadingPage);
         this.prepareNav(path);
     }
@@ -34,13 +35,15 @@ export class Navigation {
 
     private prepareNav(path: string): void {
         window.history.pushState(null, '', `${location.origin}${this.basePath}${path}`);
-        this.loadingPage = new (this.getPage(path))(this.state);
+        const Page = this.getPage(path);
+        const texts = this.state.getData(StateKeys.lang).getPageTexts(Page.name.toLowerCase());
+        this.loadingPage = new Page(texts, this.state);
     }
 
-    private getPage<T extends Page>(path: string): new (appState: State) => T {
+    private getPage<T extends Page>(path: string): new (texts: Record<string, string>, appState: State) => T {
         const Page = this.pages[path] ?? this.pages['/'] ?? this.pages['/home'] ?? this.pages['/landing'];
         document.title = `Vanilla | ${(Page.name as string).addSpaces('uppercase')}`;
-        return Page as new (appState: State) => T;
+        return Page as new (texts: Record<string, string>, appState: State) => T;
     }
 
     static breadCrumbs(): string[] {
