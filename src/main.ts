@@ -1,10 +1,9 @@
 import './style/dist/style.css';
 import './utils/stringExtensions';
 
-import { Navigation, State } from "@services";
+import { Device, Language, Navigation, State, siteRoutes } from "@services";
 import { Modal, Navbar } from "@app/shared";
 import { StateKeys } from '@constants/stateKeys.constant';
-import { Home} from '@app/pages';
 
 interface IApplicationState {}
 
@@ -18,10 +17,8 @@ class Main {
   // Elements.
   constructor() {
     this.appState = new State();
-    this.navigator = new Navigation(this.appState, this.app, {
-      '/': Home,
-      '/home': Home,
-    });
+    this.i18n = new Language();
+    this.navigator = new Navigation(this.appState, this.app, siteRoutes);
     this.setData();
     this.init();
   }
