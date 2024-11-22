@@ -25,7 +25,7 @@ export class Hero extends ComponentText {
         subHeader.innerText = this.texts.subHeader;
         content.append(header, subHeader);
         if (this.texts.anchor?.text && this.texts.anchor?.href)
-            content.append(new Link(this.texts.anchor, () => this.pageState.publish(StateKeys.stateNavigate, this.texts.anchor?.href)));
+            content.append(new Link(this.texts.anchor, () => this.pageState.publish(StateKeys.navigate, this.texts.anchor?.href)));
         return content;
     }
 
