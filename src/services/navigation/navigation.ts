@@ -6,29 +6,37 @@ export interface IPages {
     [k: string]: typeof Page | IPages;
 }
 
-export class Navigation {
+export class Navigation<IState = Record<string, any>> {
     loader = new Loader();
     loadingPage: Page;
 
-    constructor(private state: State, private ref: HTMLElement, public pages: IPages, private basePath = '') {
+    constructor(private state: State<IState>, private ref: HTMLElement, public pages: IPages, private basePath = '') {
         window.addEventListener("popstate", _ => {
-            const crumbs = Navigation.breadCrumbs();
-            if (crumbs[crumbs.length - 2] === this.basePath) this.loading(location.pathname);
+            const crumbs = Navigation.crumbs();
+            this.loading(`/${crumbs.join('/')}`);
         });
     }
+    
+    async importTexts(): Promise<void> {
+        await this.i18n.importTexts(Device.lang);
+    }
 
-    fisrtLoad(path: string): void {
+    public setTexts(texts: any): void {
+        this.i18n.texts = texts;
+    }
+
+    public fisrtLoad(path: string): void {
         this.ref.append(this.loader);
         this.prepareNav(path);
     }
 
-    loading(path: string): void {
-        if (location.pathname.includes(path)) return;
+    public loading(path: string): void {
+        if (location.pathname === path) return;
         this.ref.replaceChild(this.loader, this.loadingPage);
         this.prepareNav(path);
     }
 
-    showPage(): void {
+    public showPage(): void {
         this.ref.replaceChild(this.loadingPage, this.loader);
     }
 
@@ -44,7 +52,7 @@ export class Navigation {
         return Page as new (appState: State) => T;
     }
 
-    static breadCrumbs(): string[] {
-        return location.pathname.split('/');
+    static crumbs(): string[] {
+        return location.pathname.slice(1).split('/');
     }
 }
