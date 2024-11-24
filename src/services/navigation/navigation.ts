@@ -17,14 +17,6 @@ export class Navigation<IState = Record<string, any>> {
         });
     }
     
-    async importTexts(): Promise<void> {
-        await this.i18n.importTexts(Device.lang);
-    }
-
-    public setTexts(texts: any): void {
-        this.i18n.texts = texts;
-    }
-
     public fisrtLoad(path: string): void {
         this.ref.append(this.loader);
         this.prepareNav(path);
@@ -46,10 +38,10 @@ export class Navigation<IState = Record<string, any>> {
         this.loadingPage = new Page(this.state);
     }
 
-    private getPage<T extends Page>(path: string): new (appState: State) => T {
+    private getPage<T extends Page>(path: string): new (appState: State<IState>) => T {
         const Page = this.pages[path] ?? this.pages['/'] ?? this.pages['/home'] ?? this.pages['/landing'];
         document.title = `Vanilla | ${(Page.name as string).addSpaces('uppercase')}`;
-        return Page as new (appState: State) => T;
+        return Page as new (appState: State<IState>) => T;
     }
 
     static crumbs(): string[] {

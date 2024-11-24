@@ -1,7 +1,7 @@
 import './style/dist/style.css';
 import './utils/stringExtensions';
 
-import { Device, Language, Navigation, setMetaTags, State, setOpenGraphTags } from "@services";
+import { Navigation, setMetaTags, State, setOpenGraphTags } from "@services";
 import { Modal, Navbar } from "@app/shared";
 import { StateKeys } from '@constants/stateKeys.constant';
 import { appConfig } from 'app.config';
@@ -10,10 +10,8 @@ class Main {
   // App element.
   app = document.getElementById('app') ?? this.createApp();
   // Services.
-  device: Device;
   navigation: Navigation;
   appState: State;
-  i18n: Language;
 
   // Elements.
   constructor() {
@@ -21,7 +19,7 @@ class Main {
     if (appConfig.OGCard) setOpenGraphTags(appConfig.OGCard);
     this.appState = new State();
     this.navigation = new Navigation(this.appState, this.app, appConfig.routes);
-    this.navigation.importTexts().then(_ => this.init()); // Importing application's texts.
+    this.init();
   }
 
   private createApp(): HTMLDivElement {

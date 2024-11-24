@@ -1,4 +1,4 @@
-import { GetStarted, Home, Contact, Dialogs, Documentation, Forms } from "@app/pages"
+import { Home } from "@app/pages"
 import type { IPages, IMetaTags, OGCard} from "@services"
 
 export const appConfig: AppConfig = {
@@ -6,11 +6,6 @@ export const appConfig: AppConfig = {
     routes: {
         '/': Home,
         '/home': Home,
-        '/get-started': GetStarted,
-        '/forms': Forms,
-        '/docs': Documentation,
-        '/dialogs': Dialogs,
-        '/contact-us': Contact,
     },
     meta: {
         description: "Welcome to Vanilla, a fast and reliable web development frame.",
